@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { UpdateHomepageSectionDto } from './dto/update-homepage-section.dto';
 
@@ -30,7 +31,12 @@ export class HomepageService {
 
     return this.prisma.homepageSection.update({
       where: { key },
-      data: dto,
+      data: {
+        title: dto.title,
+        subtitle: dto.subtitle,
+        isActive: dto.isActive,
+        contentJson: dto.contentJson as Prisma.InputJsonValue | undefined,
+      },
     });
   }
 }
