@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
+import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { CreateOfferDto } from './dto/create-offer.dto';
 import { UpdateOfferDto } from './dto/update-offer.dto';
@@ -11,6 +12,7 @@ import { OffersService } from './offers.service';
 export class OffersController {
   constructor(private readonly offersService: OffersService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.offersService.findAll();

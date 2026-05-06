@@ -5,6 +5,8 @@ Production-ready NestJS backend for the OptiZenqor ecosystem. This single REST A
 - Flutter mobile ecommerce app
 - React + Vite storefront
 - React + Vite admin dashboard
+- Built-in static demo storefront at `/`
+- Built-in static admin dashboard at `/dashboard/`
 
 ## Stack
 
@@ -100,6 +102,12 @@ npm run prisma:seed
 ```bash
 npm run start:dev
 ```
+
+8. Open the built-in web surfaces
+
+- Storefront: `http://localhost:4000/`
+- Admin dashboard: `http://localhost:4000/dashboard/`
+- Swagger docs: `http://localhost:4000/docs`
 
 ## Swagger
 

@@ -118,4 +118,56 @@ export class AdminsService {
       orderBy: { updatedAt: 'desc' },
     });
   }
+
+  async getAppControlCenter() {
+    const [overview, homepageSections, offers, categories, products, content, features, systemConfig] =
+      await Promise.all([
+        this.overview(),
+        this.prisma.homepageSection.findMany({ orderBy: { key: 'asc' } }),
+        this.prisma.offer.findMany({
+          include: {
+            products: {
+              include: {
+                product: {
+                  select: {
+                    id: true,
+                    name: true,
+                    status: true,
+                    isVisible: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: { updatedAt: 'desc' },
+        }),
+        this.prisma.category.findMany({ orderBy: { name: 'asc' } }),
+        this.prisma.product.findMany({
+          include: { primaryCategory: true },
+          orderBy: { updatedAt: 'desc' },
+        }),
+        this.prisma.contentPost.findMany({ orderBy: { updatedAt: 'desc' } }),
+        this.prisma.featureFlag.findMany({ orderBy: { updatedAt: 'desc' } }),
+        this.prisma.systemConfig.findMany({ orderBy: { key: 'asc' } }),
+      ]);
+
+    return {
+      overview,
+      homepageSections,
+      offers,
+      categories,
+      products,
+      content,
+      features,
+      systemConfig,
+      controls: {
+        activeCategories: categories.filter((category) => category.isActive).length,
+        visibleProducts: products.filter((product) => product.isVisible).length,
+        activeOffers: offers.filter((offer) => offer.isActive).length,
+        activeHomepageSections: homepageSections.filter((section) => section.isActive).length,
+        publishedContent: content.filter((item) => item.status === 'PUBLISHED').length,
+        enabledFeatureFlags: features.filter((feature) => feature.isEnabled).length,
+      },
+    };
+  }
 }

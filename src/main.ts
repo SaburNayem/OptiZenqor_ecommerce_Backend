@@ -1,7 +1,9 @@
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import helmet from 'helmet';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
@@ -9,7 +11,7 @@ import { PrismaService } from './database/prisma.service';
 import { setupSwagger } from './config/swagger.config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
   app.use(helmet());
@@ -38,6 +40,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   setupSwagger(app);
+  app.useStaticAssets(join(process.cwd(), 'public'));
 
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
