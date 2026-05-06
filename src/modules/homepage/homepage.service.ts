@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
+import { CreateHomepageSectionDto } from './dto/create-homepage-section.dto';
 import { UpdateHomepageSectionDto } from './dto/update-homepage-section.dto';
 
 @Injectable()
@@ -17,6 +18,18 @@ export class HomepageService {
   getAdminHomepage() {
     return this.prisma.homepageSection.findMany({
       orderBy: { key: 'asc' },
+    });
+  }
+
+  create(dto: CreateHomepageSectionDto) {
+    return this.prisma.homepageSection.create({
+      data: {
+        key: dto.key,
+        title: dto.title,
+        subtitle: dto.subtitle,
+        isActive: dto.isActive ?? true,
+        contentJson: (dto.contentJson ?? {}) as Prisma.InputJsonValue,
+      },
     });
   }
 

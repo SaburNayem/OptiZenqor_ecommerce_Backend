@@ -45,4 +45,9 @@ export class AdminsController {
   getFeatures() {
     return this.adminsService.getFeatures();
   }
+
+  @Get('app-control')
+  getAppControlCenter() {
+    return this.adminsService.getAppControlCenter();
+  }
 }

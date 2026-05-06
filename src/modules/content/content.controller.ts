@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
+import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ContentService } from './content.service';
 import { CreateContentPostDto } from './dto/create-content-post.dto';
@@ -11,11 +12,13 @@ import { UpdateContentPostDto } from './dto/update-content-post.dto';
 export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
+  @Public()
   @Get()
   findAll() {
     return this.contentService.findAll();
   }
 
+  @Public()
   @Get(':slug')
   findBySlug(@Param('slug') slug: string) {
     return this.contentService.findBySlug(slug);

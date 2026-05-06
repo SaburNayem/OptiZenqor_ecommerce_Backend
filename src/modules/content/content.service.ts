@@ -9,13 +9,14 @@ export class ContentService {
 
   findAll() {
     return this.prisma.contentPost.findMany({
+      where: { status: 'PUBLISHED' },
       orderBy: { createdAt: 'desc' },
     });
   }
 
   async findBySlug(slug: string) {
-    const post = await this.prisma.contentPost.findUnique({
-      where: { slug },
+    const post = await this.prisma.contentPost.findFirst({
+      where: { slug, status: 'PUBLISHED' },
     });
 
     if (!post) {
@@ -31,6 +32,12 @@ export class ContentService {
         ...dto,
         publishedAt: dto.publishedAt ? new Date(dto.publishedAt) : undefined,
       },
+    });
+  }
+
+  findAdminAll() {
+    return this.prisma.contentPost.findMany({
+      orderBy: { createdAt: 'desc' },
     });
   }
 

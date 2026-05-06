@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptiZenqor Storefront</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body class="theme-store">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">OZ</span>
+          <span>
+            <strong>OptiZenqor</strong>
+            <small>Wellness commerce ecosystem</small>
+          </span>
+        </a>
+        <nav class="topbar-nav">
+          <a href="#catalog">Catalog</a>
+          <a href="#categories">Categories</a>
+          <a href="#offers">Offers</a>
+          <a href="/dashboard/">Dashboard</a>
+          <a href="/docs">API Docs</a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero reveal">
+          <div class="hero-copy">
+            <p class="eyebrow" id="hero-highlight">Connected commerce</p>
+            <h1 id="hero-title">A faster, sharper OptiZenqor web experience.</h1>
+            <p class="hero-text" id="hero-subtitle">
+              Animated storefront surfaces powered by your NestJS ecommerce backend.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#catalog">Shop the launch lineup</a>
+              <a class="btn btn-secondary" href="/dashboard/">Open admin dashboard</a>
+            </div>
+            <div class="hero-metrics">
+              <div>
+                <strong id="metric-products">0</strong>
+                <span>active products</span>
+              </div>
+              <div>
+                <strong id="metric-categories">0</strong>
+                <span>live categories</span>
+              </div>
+              <div>
+                <strong id="metric-offers">0</strong>
+                <span>launch offers</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-orbit">
+            <div class="orb orb-a"></div>
+            <div class="orb orb-b"></div>
+            <div class="orb orb-c"></div>
+            <div class="glass-panel">
+              <p>Realtime system layer</p>
+              <strong>Backend + storefront + dashboard</strong>
+              <span>One repo. One API. Better presentation.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="section reveal">
+          <div class="section-heading">
+            <p class="eyebrow">Explore</p>
+            <h2>Filter products without losing the visual energy.</h2>
+          </div>
+          <div class="catalog-toolbar">
+            <label class="search-box">
+              <span>Search</span>
+              <input id="search-input" type="search" placeholder="Search by name, SKU, or feel..." />
+            </label>
+            <label class="select-box">
+              <span>Category</span>
+              <select id="category-filter">
+                <option value="">All categories</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="section reveal" id="catalog">
+          <div class="section-heading">
+            <p class="eyebrow">Catalog</p>
+            <h2>Featured products rendered from the live API.</h2>
+          </div>
+          <div id="product-grid" class="product-grid"></div>
+          <p id="product-empty" class="empty-state hidden">No products matched that filter.</p>
+        </section>
+
+        <section class="section reveal" id="categories">
+          <div class="section-heading">
+            <p class="eyebrow">Browse by category</p>
+            <h2>Collections designed around routines, not just SKUs.</h2>
+          </div>
+          <div id="category-grid" class="category-grid"></div>
+        </section>
+
+        <section class="section reveal" id="offers">
+          <div class="section-heading">
+            <p class="eyebrow">Offers</p>
+            <h2>Launch campaigns and merchandising highlights.</h2>
+          </div>
+          <div id="offer-grid" class="offer-grid"></div>
+        </section>
+
+        <section class="section reveal editorial-banner">
+          <div>
+            <p class="eyebrow">Built for this backend</p>
+            <h2>Everything here runs on the existing NestJS APIs.</h2>
+          </div>
+          <div class="editorial-copy">
+            <p>
+              Products come from <code>/products</code>, categories from <code>/categories</code>,
+              offers from <code>/offers</code>, and homepage copy from <code>/homepage</code>.
+            </p>
+            <a class="btn btn-primary" href="/docs">Inspect Swagger</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/assets/store.js" defer></script>
+  </body>
+  </html>
