@@ -10,26 +10,36 @@ export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(query: ListProductsDto) {
+    const andFilters: Prisma.ProductWhereInput[] = [];
+
+    if (query.search) {
+      andFilters.push({
+        OR: [
+          { name: { contains: query.search, mode: Prisma.QueryMode.insensitive } },
+          { description: { contains: query.search, mode: Prisma.QueryMode.insensitive } },
+          { sku: { contains: query.search, mode: Prisma.QueryMode.insensitive } },
+        ],
+      });
+    }
+
+    if (query.categoryId) {
+      andFilters.push({
+        OR: [
+          { primaryCategoryId: query.categoryId },
+          { categories: { some: { categoryId: query.categoryId } } },
+        ],
+      });
+    }
+
+    andFilters.push({
+      OR: [{ primaryCategoryId: null }, { primaryCategory: { isActive: true } }],
+    });
+
     const where: Prisma.ProductWhereInput = {
-      ...(query.search
-        ? {
-            OR: [
-              { name: { contains: query.search, mode: 'insensitive' } },
-              { description: { contains: query.search, mode: 'insensitive' } },
-              { sku: { contains: query.search, mode: 'insensitive' } },
-            ],
-          }
-        : {}),
-      ...(query.categoryId
-        ? {
-            OR: [
-              { primaryCategoryId: query.categoryId },
-              { categories: { some: { categoryId: query.categoryId } } },
-            ],
-          }
-        : {}),
       ...(typeof query.featured === 'boolean' ? { isFeatured: query.featured } : {}),
       ...(typeof query.visible === 'boolean' ? { isVisible: query.visible } : { isVisible: true }),
+      status: ProductStatus.ACTIVE,
+      AND: andFilters,
     };
 
     return this.prisma.product.findMany({
@@ -45,8 +55,13 @@ export class ProductsService {
   }
 
   async findById(id: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { id },
+    const product = await this.prisma.product.findFirst({
+      where: {
+        id,
+        status: ProductStatus.ACTIVE,
+        isVisible: true,
+        OR: [{ primaryCategoryId: null }, { primaryCategory: { isActive: true } }],
+      },
       include: {
         primaryCategory: true,
         categories: { include: { category: true } },
@@ -62,8 +77,13 @@ export class ProductsService {
   }
 
   async findBySlug(slug: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { slug },
+    const product = await this.prisma.product.findFirst({
+      where: {
+        slug,
+        status: ProductStatus.ACTIVE,
+        isVisible: true,
+        OR: [{ primaryCategoryId: null }, { primaryCategory: { isActive: true } }],
+      },
       include: {
         primaryCategory: true,
         categories: { include: { category: true } },

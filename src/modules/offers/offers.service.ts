@@ -9,8 +9,16 @@ export class OffersService {
 
   findAll() {
     return this.prisma.offer.findMany({
+      where: { isActive: true },
       include: {
         products: {
+          where: {
+            product: {
+              status: 'ACTIVE',
+              isVisible: true,
+              OR: [{ primaryCategoryId: null }, { primaryCategory: { isActive: true } }],
+            },
+          },
           include: { product: true },
         },
       },

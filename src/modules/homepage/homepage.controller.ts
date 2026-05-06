@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
+import { Public } from 'src/common/decorators/public.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { CreateHomepageSectionDto } from './dto/create-homepage-section.dto';
 import { UpdateHomepageSectionDto } from './dto/update-homepage-section.dto';
 import { HomepageService } from './homepage.service';
 
@@ -10,6 +12,7 @@ import { HomepageService } from './homepage.service';
 export class HomepageController {
   constructor(private readonly homepageService: HomepageService) {}
 
+  @Public()
   @Get()
   getPublicHomepage() {
     return this.homepageService.getPublicHomepage();
@@ -20,6 +23,13 @@ export class HomepageController {
   @Get('admin')
   getAdminHomepage() {
     return this.homepageService.getAdminHomepage();
+  }
+
+  @ApiBearerAuth()
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  @Post('admin')
+  create(@Body() dto: CreateHomepageSectionDto) {
+    return this.homepageService.create(dto);
   }
 
   @ApiBearerAuth()
