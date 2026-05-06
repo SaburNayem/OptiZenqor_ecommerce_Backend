@@ -22,8 +22,10 @@ import { ContentModule } from './modules/content/content.module';
 import { FeaturesModule } from './modules/features/features.module';
 import { SystemModule } from './modules/system/system.module';
 import { UploadsModule } from './modules/uploads/uploads.module';
+import { WebController } from './web.controller';
 
 @Module({
+  controllers: [WebController],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,

@@ -9,15 +9,22 @@ export class CategoriesService {
 
   findAll() {
     return this.prisma.category.findMany({
+      where: { isActive: true },
       orderBy: { name: 'asc' },
     });
   }
 
   async findById(id: string) {
-    const category = await this.prisma.category.findUnique({
-      where: { id },
+    const category = await this.prisma.category.findFirst({
+      where: { id, isActive: true },
       include: {
         products: {
+          where: {
+            product: {
+              status: 'ACTIVE',
+              isVisible: true,
+            },
+          },
           include: {
             product: true,
           },
@@ -33,8 +40,8 @@ export class CategoriesService {
   }
 
   async findBySlug(slug: string) {
-    const category = await this.prisma.category.findUnique({
-      where: { slug },
+    const category = await this.prisma.category.findFirst({
+      where: { slug, isActive: true },
     });
 
     if (!category) {

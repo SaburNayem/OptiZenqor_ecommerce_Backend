@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OptiZenqor Admin Dashboard</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body class="theme-dashboard">
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/">
+          <span class="brand-mark">OZ</span>
+          <span>
+            <strong>OptiZenqor Admin</strong>
+            <small>Operational dashboard</small>
+          </span>
+        </a>
+        <nav class="topbar-nav">
+          <a href="/">Storefront</a>
+          <a href="/docs">Swagger</a>
+        </nav>
+      </header>
+
+      <main class="dashboard-layout">
+        <section class="auth-card reveal">
+          <div class="section-heading compact">
+            <p class="eyebrow">Secure entry</p>
+            <h1>Admin dashboard login</h1>
+          </div>
+          <form id="login-form" class="stack-form">
+            <label>
+              <span>Email</span>
+              <input id="email" type="email" value="admin@optizenqor.com" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input id="password" type="password" value="Password123!" required />
+            </label>
+            <button class="btn btn-primary" type="submit">Sign in</button>
+          </form>
+          <p class="muted">Demo admin credentials are prefilled from the seed data.</p>
+          <p id="auth-status" class="status-line"></p>
+        </section>
+
+        <section id="dashboard-panel" class="dashboard-panel hidden">
+          <div class="dashboard-head reveal">
+            <div>
+              <p class="eyebrow">Control room</p>
+              <h2 id="welcome-title">Dashboard overview</h2>
+            </div>
+            <div class="dashboard-actions">
+              <button id="refresh-dashboard" class="btn btn-secondary" type="button">Refresh data</button>
+              <button id="logout-button" class="btn btn-ghost" type="button">Logout</button>
+            </div>
+          </div>
+
+          <div id="overview-cards" class="overview-grid reveal"></div>
+
+          <div class="dashboard-grid">
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Quick create</p>
+                <h3>New category</h3>
+              </div>
+              <form id="category-form" class="stack-form">
+                <input name="name" placeholder="Category name" required />
+                <input name="slug" placeholder="category-slug" required />
+                <input name="bannerTitle" placeholder="Banner title" />
+                <textarea name="description" placeholder="Short description"></textarea>
+                <button class="btn btn-primary" type="submit">Create category</button>
+              </form>
+            </section>
+
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Quick create</p>
+                <h3>New product</h3>
+              </div>
+              <form id="product-form" class="stack-form">
+                <input name="name" placeholder="Product name" required />
+                <input name="slug" placeholder="product-slug" required />
+                <input name="sku" placeholder="SKU" required />
+                <textarea name="description" placeholder="Product description" required></textarea>
+                <input name="shortDescription" placeholder="Short description" />
+                <input name="imageUrl" placeholder="Image URL" />
+                <div class="form-split">
+                  <input name="price" type="number" min="0" step="1" placeholder="Price" required />
+                  <input name="compareAtPrice" type="number" min="0" step="1" placeholder="Compare at" />
+                  <input name="stockQuantity" type="number" min="0" step="1" placeholder="Stock" required />
+                </div>
+                <select id="product-category" name="primaryCategoryId">
+                  <option value="">Primary category</option>
+                </select>
+                <label class="check-row"><input name="isFeatured" type="checkbox" /> Featured</label>
+                <label class="check-row"><input name="isPopular" type="checkbox" /> Popular</label>
+                <label class="check-row"><input name="isVisible" type="checkbox" checked /> Visible</label>
+                <button class="btn btn-primary" type="submit">Create product</button>
+              </form>
+            </section>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Inventory</p>
+                <h3>Latest products</h3>
+              </div>
+              <div id="product-table" class="table-list"></div>
+            </section>
+
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Customers</p>
+                <h3>Recent customer accounts</h3>
+              </div>
+              <div id="customer-list" class="table-list"></div>
+            </section>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Orders</p>
+                <h3>Recent order flow</h3>
+              </div>
+              <div id="order-list" class="table-list"></div>
+            </section>
+
+            <section class="dashboard-card reveal">
+              <div class="section-heading compact">
+                <p class="eyebrow">Feature flags</p>
+                <h3>Environment toggles</h3>
+              </div>
+              <div id="feature-list" class="table-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/assets/dashboard.js" defer></script>
+  </body>
+  </html>
